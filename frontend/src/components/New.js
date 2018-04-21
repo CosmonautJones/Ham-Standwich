@@ -216,7 +216,7 @@ class New extends Component {
               <Input
                 label={
                   <Dropdown
-                    defaultValue="am"
+                    defaultValue="AM"
                     options={options}
                     onChange={(e, d) => this.handleModifier(e, d)}
                   />

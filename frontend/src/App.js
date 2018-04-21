@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { Route, BrowserRouter as Router } from 'react-router-dom';
 
+import New from './components/New';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
-import New from './components/New';
+import SidebarMenu from './components/SidebarMenu';
+
 import { Sidebar, Segment, Button, Menu } from 'semantic-ui-react';
 
 class App extends Component {
@@ -23,7 +25,7 @@ class App extends Component {
             <Route exact path="/" component={Login} />
             <Route
               path="/dashboard"
-              component={Dashboard}
+              component={SidebarMenu}
               toggle={this.toggleVisibility}
             />
           </Sidebar>
