@@ -4,6 +4,8 @@ const Workspace = require('../models/workspaceModel');
 
 const createWorkspace = require('./helpers/createWorkspace');
 
+const colors = require('colors');
+
 const login = (req, res) => {
   if (!req.query.code) {
     // access denied
@@ -18,6 +20,7 @@ const login = (req, res) => {
       code: req.query.code,
     },
   };
+  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>'.green);
   request.post('https://slack.com/api/oauth.access', data, async function(
     error,
     response,

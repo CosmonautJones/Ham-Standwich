@@ -51,12 +51,13 @@ class Dashboard extends Component {
               component={New}
               style={{ margin: '5em' }}
             />
-            {/* <Route exact path="/dashboard/overview" component={Overview} />
-  <Route
-    exact
-    path="/dashboard/conversations"
-    component={Conversations}
-  />
+            {/* <Route exact path="/dashboard" component={Overview} /> */}
+            <Route
+              exact
+              path="/dashboard/conversations"
+              component={Conversations}
+            />
+            {/* 
   <Route exact path="/dashboard/conversations/list" component={List} />
   <Route exact path="/dashboard/conversations/edit" component={Edit} /> */}
           </Sidebar.Pusher>

@@ -66,8 +66,5 @@ module.exports = createWorkspace = async (body, req, res) => {
     createMember(member, workspace);
   });
 
-  if (false) {
-    return res.redirect(`${process.env.REDIRECT_URI}/?doc_id=${workspace._id}`);
-  }
-  return res.redirect(process.env.REDIRECT_URI);
+  return res.redirect(`${process.env.REDIRECT_URI}/?doc_id=${workspace._id}`);
 };
