@@ -14,3 +14,21 @@ export const saveConversation = async c => {
     alert('saved');
   } catch (error) {}
 };
+
+export const allConversations = async () => {
+  try {
+    const res = await axios.post('http://localhost:3031/conversation/all', {
+      w_id,
+    });
+    return res;
+  } catch (error) {}
+};
+
+export const deleteConversation = async (w_id, c_id) => {
+  try {
+    await axios.post('http://localhost:3031/conversation/delete', {
+      w_id,
+      c_id,
+    });
+  } catch (error) {}
+};

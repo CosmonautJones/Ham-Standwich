@@ -4,6 +4,7 @@ import { Route, BrowserRouter as Router } from 'react-router-dom';
 import New from './New';
 import Login from './Login';
 import SidebarMenu from './SidebarMenu';
+import Conversations from './Conversations';
 
 import { Sidebar, Segment, Button, Menu } from 'semantic-ui-react';
 

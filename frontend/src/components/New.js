@@ -1,5 +1,7 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+
 import { findUsers } from '../actions/FindUsers';
 import { saveConversation } from '../actions/Conversation';
 
@@ -51,7 +53,7 @@ class New extends Component {
         modifier: 'AM',
         tz: '',
       },
-      Members: [],
+      members: [],
       localMembers: [],
       questionToAdd: '',
     };
@@ -60,7 +62,7 @@ class New extends Component {
 
   handleAddUser = (e, d) => {
     console.log('result', d.result);
-    this.state.Members.push(d.result.id);
+    this.state.members.push(d.result.id);
     this.state.localMembers.push(d.result);
     this.setState({ localMembers: this.state.localMembers });
     this.setState({ members: this.state.members });
@@ -129,17 +131,19 @@ class New extends Component {
   handleUpdateTitle = async (e, d) => {
     this.state.title = e.target.value;
     await this.setState({ title: this.state.title });
-    console.log(this.state.title);
+    // console.log(this.state.title);
   };
 
   handleModifier = async (e, d) => {
     // console.log(e.target.value, d.value);
-    await this.setState({ schedule: { modifier: d.value.toUpperCase() } });
+    await this.setState({ schedule: { modifier: d.value } });
     console.log(this.state);
   };
 
   handleSave = async () => {
+    console.log(this.state);
     await saveConversation(this.state);
+    this.props.history.push('/dashboard/conversations');
   };
 
   handleUpdateTime = (e, d) => {};
@@ -315,4 +319,5 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, {})(New);
+/** Golden */
+export default withRouter(connect(mapStateToProps, {})(New));
