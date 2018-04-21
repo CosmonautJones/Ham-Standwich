@@ -92,21 +92,29 @@ const getAllMembers = async (req, res) => {
 };
 
 const findMembers = async (req, res) => {
+  // console.log('trying to find member by ', req.body.searchTerm);
   const { w_id, searchTerm } = req.body;
   console.log(w_id, searchTerm);
   const regex = new RegExp(`${searchTerm}`, 'i');
   const searchResult = [];
 
   const workspace = await Workspace.findById(w_id).populate('members');
-  // console.log(workspace.members);
   workspace.members.forEach(m => {
     if (m.real_name) {
       if (m.real_name.match(regex)) {
-        searchResult.push(m);
+        const memberShort = {
+          id: m.id,
+          image: m.image,
+          color: m.color,
+          title: m.real_name,
+          real_name: m.real_name,
+          description: m.name,
+        };
+        searchResult.push(memberShort);
       }
     }
   });
-  console.log(searchResult);
+  // console.log(searchResult);
   res.json(searchResult);
 };
 

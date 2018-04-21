@@ -24,6 +24,7 @@ const createMember = async (member, w) => {
 };
 
 module.exports = createWorkspace = async (body, req, res) => {
+  // console.log('create workspace');
   const token = body.access_token;
   const web = await new WebClient(token);
   const members = await web.users.list();
@@ -48,7 +49,7 @@ module.exports = createWorkspace = async (body, req, res) => {
   });
 
   members.members.forEach(m => {
-    // console.log('here');
+    console.log('here');
     const member = {
       workspace: workspace._id,
       id: m.id,
@@ -60,6 +61,7 @@ module.exports = createWorkspace = async (body, req, res) => {
       color: m.color,
       image: m.profile.image_512,
       email: m.profile.email,
+      // title: m.real_name,
     };
     createMember(member, workspace);
   });

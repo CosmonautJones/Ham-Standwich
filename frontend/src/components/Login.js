@@ -27,9 +27,16 @@ class Login extends Component {
   render() {
     return (
       <div className="login-form">
-        <Menu>
+        <Menu
+          secondary
+          style={{
+            'margin-top': '10px',
+            'margin-left': '3em',
+            'margin-right': '3em',
+          }}
+        >
           <Menu.Item>
-            <a href="https://slack.com/oauth/authorize?client_id=270618182930.333388702161&scope=bot,incoming-webhook,search:read&redirect_uri=https://3a384b2f.ngrok.io/auth/bot">
+            <a href="https://slack.com/oauth/authorize?client_id=270618182930.333388702161&scope=bot,incoming-webhook,search:read&redirect_uri=https://749fe7d5.ngrok.io/auth/bot">
               <img
                 alt="Add to Slack"
                 height="40"
@@ -40,7 +47,7 @@ class Login extends Component {
             </a>
           </Menu.Item>
           <Menu.Item position="right">
-            <a href="https://slack.com/oauth/authorize?scope=users:read,users:read.email,team:read&client_id=270618182930.333388702161&redirect_uri=https://3a384b2f.ngrok.io/auth/login">
+            <a href="https://slack.com/oauth/authorize?scope=users:read,users:read.email,team:read&client_id=270618182930.333388702161&redirect_uri=https://749fe7d5.ngrok.io/auth/login">
               <img src="https://api.slack.com/img/sign_in_with_slack.png" />
             </a>
           </Menu.Item>
