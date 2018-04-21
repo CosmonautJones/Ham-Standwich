@@ -13,15 +13,15 @@ const Member = require('../models/memberModel');
 
 const createConversation = async (req, res) => {
   const { c, w_id } = req.body;
-  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
-  console.log(c);
-  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+  // console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+  // console.log(c);
+  // console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
   await c.members.forEach(m => {
     console.log(typeof m);
   });
   // find all members and add a conversation to member object
   /** Golden */
-  console.log('here'.red);
+  // console.log('here'.red);
   const members = await Member.find({
     id: { $in: c.members },
   });
@@ -167,16 +167,16 @@ const updateConversation = async body => {
     let questionIndex = 0;
 
     cr.responses.forEach(r => {
-      let attatchmentObj = {};
+      let attachmentObj = {};
       if (member._id.toString() === r.member.toString()) {
-        attatchmentObj = {
+        attachmentObj = {
           fallback: `${conversation.questions[questionIndex]}\n${r.response}`,
           text: `${r.response}`,
           title: `${conversation.questions[questionIndex]}`,
           color: 'c0dadb',
           mrkdwn_in: ['text'],
         };
-        certainMemberResponses.push(attatchmentObj);
+        certainMemberResponses.push(attachmentObj);
         questionIndex++;
       }
     });
