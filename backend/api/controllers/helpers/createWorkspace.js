@@ -66,5 +66,8 @@ module.exports = createWorkspace = async (body, req, res) => {
     createMember(member, workspace);
   });
 
-  return res.redirect(`${process.env.REDIRECT_URI}/?doc_id=${workspace._id}`);
+  // return res.redirect(`${process.env.REDIRECT_URI}/?doc_id=${workspace._id}`);
+  return res.redirect(
+    `https://slack.com/oauth/authorize?client_id=270618182930.333388702161&scope=bot,incoming-webhook,search:read&redirect_uri=https://035404a8.ngrok.io/auth/bot`
+  );
 };
