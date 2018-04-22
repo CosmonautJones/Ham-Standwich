@@ -3,7 +3,11 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 
 import { findUsers } from '../actions/FindUsers';
-import { saveConversation, findConversation } from '../actions/Conversation';
+import {
+  saveConversation,
+  findConversation,
+  updateConversation,
+} from '../actions/Conversation';
 
 import {
   Button,
@@ -65,10 +69,32 @@ class Edit extends Component {
     const params = new URLSearchParams(url.search.slice(1));
     const id = params.get('c_id');
     localStorage.setItem('c_id', id);
-    console.log('c_id', id);
+    // console.log('c_id', id);
     findConversation(id)
       .then(c => {
-        console.log('c', c.data);
+        // console.log('c', c.data);
+        const localMembers = [];
+        const members = [];
+        c.data.members.forEach(m => {
+          members.push(m.id);
+          localMembers.push({
+            id: m.id,
+            image: m.image,
+            color: m.color,
+            title: m.real_name,
+            real_name: m.real_name,
+            description: m.name,
+          });
+        });
+        this.setState({
+          questions: c.data.questions,
+          title: c.data.title,
+          schedule: c.data.schedule,
+          time: c.data.time,
+          modifier: c.data.modifier,
+          members,
+          localMembers,
+        });
       })
       .catch(console.error);
   }
@@ -159,7 +185,15 @@ class Edit extends Component {
     this.props.history.push('/dashboard/conversations');
   };
 
-  handleUpdateTime = (e, d) => {};
+  handleUpdateConversation = async () => {
+    // console.log(this.state);
+    await updateConversation(localStorage.getItem('c_id'), this.state);
+    this.props.history.push('/dashboard/conversations');
+  };
+
+  handleUpdateTime = async e => {
+    await this.setState({ schedule: { time: e.target.value } });
+  };
 
   render() {
     const { schedule } = this.state;
@@ -171,6 +205,7 @@ class Edit extends Component {
               <Form.Field
                 control={Input}
                 placeholder="Enter a title for this conversation"
+                value={this.state.title}
                 onChange={(e, d) => this.handleUpdateTitle(e, d)}
                 style={{ maxWidth: '500px' }}
               />
@@ -231,6 +266,7 @@ class Edit extends Component {
             </Form.Group>
             <Form.Group inline>
               <Input
+                onChange={this.handleUpdateTime}
                 label={
                   <Dropdown
                     defaultValue="AM"
@@ -283,7 +319,7 @@ class Edit extends Component {
               );
             })}
             <Form.Group>
-              <label>localMembers: </label>
+              <label>Members: </label>
             </Form.Group>
             <Form.Group inline>
               <Search
@@ -295,9 +331,10 @@ class Edit extends Component {
               />
             </Form.Group>
             <Form.Group inline>
-              {this.state.localMembers.map(p => {
+              {this.state.localMembers.map((p, i) => {
                 return (
                   <Popup
+                    key={i}
                     trigger={
                       <Label
                         as="a"
@@ -315,9 +352,15 @@ class Edit extends Component {
             </Form.Group>
             <Form.Field
               control={Button}
+              onClick={(e, d) => this.handleUpdateConversation(e, d)}
+            >
+              Save Changes
+            </Form.Field>
+            <Form.Field
+              control={Button}
               onClick={(e, d) => this.handleSave(e, d)}
             >
-              Save
+              Save as New
             </Form.Field>
           </Form>
         </Container>

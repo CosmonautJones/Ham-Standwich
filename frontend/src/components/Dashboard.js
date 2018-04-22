@@ -4,6 +4,7 @@ import { Route, BrowserRouter as Router } from 'react-router-dom';
 import New from './New';
 import Edit from './Edit';
 import Login from './Login';
+import Billing from './Billing';
 import SidebarMenu from './SidebarMenu';
 import Conversations from './Conversations';
 
@@ -46,7 +47,6 @@ class Dashboard extends Component {
                 onClick={this.toggleVisibility}
               />
             </Menu>
-
             <Route
               exact
               path="/dashboard/conversations/new"
@@ -64,9 +64,7 @@ class Dashboard extends Component {
               path="/dashboard/conversations/edit"
               component={Edit}
             />
-            {/* 
-  <Route exact path="/dashboard/conversations/list" component={List} />
-  */}
+            <Route exact path="/dashboard/billing" component={Billing} />
           </Sidebar.Pusher>
         </Sidebar.Pushable>
       </div>

@@ -7,8 +7,19 @@ const w_id = '5ada4e11ee311e4894b9faae';
 export const saveConversation = async c => {
   // console.log(c);
   try {
-    const res = await axios.post('http://localhost:3031/conversation/create', {
+    await axios.post('http://localhost:3031/conversation/create', {
       w_id,
+      c,
+    });
+    alert('saved');
+  } catch (error) {}
+};
+
+export const updateConversation = async (c_id, c) => {
+  // console.log(c);
+  try {
+    await axios.put('http://localhost:3031/conversation/update', {
+      c_id,
       c,
     });
     alert('saved');

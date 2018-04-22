@@ -51,6 +51,28 @@ const createConversation = async (req, res) => {
   res.send(conversation);
 };
 
+const updateExistingConversation = async (req, res) => {
+  const { c_id, c } = req.body;
+
+  /** Golden */
+
+  const members = await Member.find({
+    id: { $in: c.members },
+  });
+
+  await Conversation.findByIdAndUpdate(c_id, {
+    members: members,
+    title: c.title,
+    questions: c.questions,
+    schedule: c.schedule,
+  })
+    .then(response => {
+      console.log(response);
+      res.send('OK');
+    })
+    .catch(console.error);
+};
+
 const deleteConversation = async (req, res) => {
   const { w_id, c_id } = req.body;
 
@@ -247,4 +269,5 @@ module.exports = {
   createConversation,
   deleteConversation,
   updateConversation,
+  updateExistingConversation,
 };

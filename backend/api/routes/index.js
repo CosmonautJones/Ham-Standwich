@@ -32,6 +32,9 @@ module.exports = app => {
   // Conversation Routes
   app.route('/conversation/create').post(conversation.createConversation);
   app.route('/conversation/delete').post(conversation.deleteConversation);
+  app
+    .route('/conversation/update')
+    .put(conversation.updateExistingConversation);
   app.route('/conversation/start').post(conversation.startConversation);
   app.route('/conversation/edit').post(conversation.editConversation);
   app.route('/conversation/find').post(conversation.getConversation);

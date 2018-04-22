@@ -146,7 +146,9 @@ class New extends Component {
     this.props.history.push('/dashboard/conversations');
   };
 
-  handleUpdateTime = (e, d) => {};
+  handleUpdateTime = async e => {
+    await this.setState({ schedule: { time: e.target.value } });
+  };
 
   render() {
     const { schedule } = this.state;
@@ -157,6 +159,7 @@ class New extends Component {
             <Form.Group widths="equal">
               <Form.Field
                 control={Input}
+                value={this.state.title}
                 placeholder="Enter a title for this conversation"
                 onChange={(e, d) => this.handleUpdateTitle(e, d)}
                 style={{ maxWidth: '500px' }}
@@ -218,6 +221,7 @@ class New extends Component {
             </Form.Group>
             <Form.Group inline>
               <Input
+                onChange={this.handleUpdateTime}
                 label={
                   <Dropdown
                     defaultValue="AM"
