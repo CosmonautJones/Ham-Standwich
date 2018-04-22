@@ -25,6 +25,7 @@ module.exports = app => {
   // Auth Routes
   app.route('/auth/bot').get(workspace.addBot);
   app.route('/auth/login').get(workspace.login);
+  app.route('/auth/active').get(workspace.hasActiveSubstription);
 
   // Bot Routes
   app.route('/slack/im/listen').post(conversation.im);

@@ -121,9 +121,16 @@ const findMembers = async (req, res) => {
   res.json(searchResult);
 };
 
+const hasActiveSubstription = async (req, res) => {
+  const { w_id } = req.body;
+  const workspace = await Workspace.findById(w_id);
+  res.send(workspace.info.active);
+};
+
 module.exports = {
   login,
   addBot,
   getAllMembers,
   findMembers,
+  hasActiveSubstription,
 };

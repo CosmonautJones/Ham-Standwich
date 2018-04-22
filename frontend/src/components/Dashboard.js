@@ -5,6 +5,7 @@ import New from './New';
 import Edit from './Edit';
 import Login from './Login';
 import Billing from './Billing';
+import Preferences from './Preferences';
 import SidebarMenu from './SidebarMenu';
 import Conversations from './Conversations';
 
@@ -65,6 +66,11 @@ class Dashboard extends Component {
               component={Edit}
             />
             <Route exact path="/dashboard/billing" component={Billing} />
+            <Route
+              exact
+              path="/dashboard/preferences"
+              component={Preferences}
+            />
           </Sidebar.Pusher>
         </Sidebar.Pushable>
       </div>
