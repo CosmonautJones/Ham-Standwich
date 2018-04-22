@@ -59,6 +59,12 @@ class Conversations extends Component {
     this.props.history.push('/dashboard/conversations/new');
   };
 
+  handleEditConversation = (e, d) => {
+    console.log(d.id);
+    /** Golden */
+    this.props.history.push(`/dashboard/conversations/edit/?c_id=${d.id}`);
+  };
+
   render() {
     // if (this.state.conversations.length > 0) {
     return (

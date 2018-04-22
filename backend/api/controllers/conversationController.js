@@ -72,6 +72,16 @@ const getMemberFromId = id => {
   }
 };
 
+const getConversation = async (req, res) => {
+  const { c_id } = req.body;
+  await Conversation.findById(c_id)
+    .populate('members')
+    .then(c => {
+      res.json(c);
+    })
+    .catch(console.error);
+};
+
 const editConversation = async (req, res) => {
   const { c_id, c } = req.body;
   const dbMembers = [];
@@ -229,11 +239,12 @@ const im = (req, res) => {
 };
 
 module.exports = {
-  createConversation,
-  deleteConversation,
+  im,
+  getConversation,
   editConversation,
   allConversations,
   startConversation,
+  createConversation,
+  deleteConversation,
   updateConversation,
-  im,
 };

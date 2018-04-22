@@ -1,6 +1,10 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+
 import { findUsers } from '../actions/FindUsers';
+import { saveConversation, findConversation } from '../actions/Conversation';
+
 import {
   Button,
   Form,
@@ -26,15 +30,14 @@ import {
 } from 'semantic-ui-react';
 
 const options = [
-  { key: 'a', text: 'AM', value: 'am' },
-  { key: 'p', text: 'PM', value: 'pm' },
+  { key: 'a', text: 'AM', value: 'AM' },
+  { key: 'p', text: 'PM', value: 'PM' },
 ];
 
 class Edit extends Component {
   constructor() {
     super();
     this.state = {
-      test: [1, 1, 1, 1, 1, 1, 1, 1, 1],
       searchResults: [],
       questions: [],
       title: '',
@@ -47,19 +50,36 @@ class Edit extends Component {
         sat: false,
         sun: false,
         time: '',
+        modifier: 'AM',
         tz: '',
       },
-      participants: [],
+      members: [],
+      localMembers: [],
       questionToAdd: '',
     };
     this.handleUserSearch = this.handleUserSearch.bind(this);
   }
 
+  componentWillMount() {
+    const url = new URL(window.location.href);
+    const params = new URLSearchParams(url.search.slice(1));
+    const id = params.get('c_id');
+    localStorage.setItem('c_id', id);
+    console.log('c_id', id);
+    findConversation(id)
+      .then(c => {
+        console.log('c', c.data);
+      })
+      .catch(console.error);
+  }
+
   handleAddUser = (e, d) => {
-    // this.setState({ participants: [...d.result] });
-    this.state.participants.push(d.result);
-    this.setState({ participants: this.state.participants });
-    console.log(this.state.participants);
+    console.log('result', d.result);
+    this.state.members.push(d.result.id);
+    this.state.localMembers.push(d.result);
+    this.setState({ localMembers: this.state.localMembers });
+    this.setState({ members: this.state.members });
+    console.log(this.state.members);
   };
 
   handleUserSearch = async e => {
@@ -95,26 +115,64 @@ class Edit extends Component {
 
   handleRemoveQuestion = (e, d) => {
     console.log(d.children);
-    const questions = this.state.questions.map(q => {
-      if (q !== d.children) {
-        return q;
+    const questions = [];
+    this.state.questions.forEach(p => {
+      if (p !== d.children) {
+        questions.push(p);
       }
     });
     console.log(questions);
     this.setState({ questions });
   };
 
+  handleRemoveParticipant = (e, d) => {
+    console.log('event', e);
+    console.log('data', d);
+    const localMembers = [];
+    const members = [];
+    this.state.localMembers.forEach(q => {
+      if (q.real_name !== d.children[1]) {
+        localMembers.push(q);
+        members.push(q.id);
+      }
+    });
+    console.log(members);
+    this.setState({ localMembers });
+    this.setState({ members });
+  };
+
+  handleUpdateTitle = async (e, d) => {
+    this.state.title = e.target.value;
+    await this.setState({ title: this.state.title });
+    // console.log(this.state.title);
+  };
+
+  handleModifier = async (e, d) => {
+    // console.log(e.target.value, d.value);
+    await this.setState({ schedule: { modifier: d.value } });
+    console.log(this.state);
+  };
+
+  handleSave = async () => {
+    console.log(this.state);
+    await saveConversation(this.state);
+    this.props.history.push('/dashboard/conversations');
+  };
+
+  handleUpdateTime = (e, d) => {};
+
   render() {
     const { schedule } = this.state;
     return (
-      <div className="login-form">
+      <div className="form-group">
         <Container>
           <Form>
             <Form.Group widths="equal">
               <Form.Field
                 control={Input}
                 placeholder="Enter a title for this conversation"
-                onChange={e => this.handleUserSearch(e)}
+                onChange={(e, d) => this.handleUpdateTitle(e, d)}
+                style={{ maxWidth: '500px' }}
               />
             </Form.Group>
             <Form.Group>
@@ -173,7 +231,13 @@ class Edit extends Component {
             </Form.Group>
             <Form.Group inline>
               <Input
-                label={<Dropdown defaultValue="am" options={options} />}
+                label={
+                  <Dropdown
+                    defaultValue="AM"
+                    options={options}
+                    onChange={(e, d) => this.handleModifier(e, d)}
+                  />
+                }
                 labelPosition="right"
                 placeholder="Time"
               />
@@ -202,6 +266,7 @@ class Edit extends Component {
                     trigger={
                       <Label
                         as="a"
+                        size="large"
                         onClick={(e, d) => this.handleRemoveQuestion(e, d)}
                       >
                         {q}
@@ -218,9 +283,8 @@ class Edit extends Component {
               );
             })}
             <Form.Group>
-              <label>Participants: </label>
+              <label>localMembers: </label>
             </Form.Group>
-
             <Form.Group inline>
               <Search
                 results={this.state.searchResults}
@@ -231,16 +295,30 @@ class Edit extends Component {
               />
             </Form.Group>
             <Form.Group inline>
-              {this.state.participants.map(p => {
+              {this.state.localMembers.map(p => {
                 return (
-                  <Label size="large">
-                    <img src={p.avatar} /> {`     ${p.real_name}     `}
-                    <Icon name="delete" />
-                  </Label>
+                  <Popup
+                    trigger={
+                      <Label
+                        as="a"
+                        size="large"
+                        onClick={(e, d) => this.handleRemoveParticipant(e, d)}
+                      >
+                        <img src={p.image} />
+                        {`${p.real_name}`}
+                      </Label>
+                    }
+                    content="Click to remove from list"
+                  />
                 );
               })}
             </Form.Group>
-            <Form.Field control={Button}>Submit</Form.Field>
+            <Form.Field
+              control={Button}
+              onClick={(e, d) => this.handleSave(e, d)}
+            >
+              Save
+            </Form.Field>
           </Form>
         </Container>
       </div>
@@ -254,4 +332,5 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, {})(Edit);
+/** Golden */
+export default withRouter(connect(mapStateToProps, {})(Edit));

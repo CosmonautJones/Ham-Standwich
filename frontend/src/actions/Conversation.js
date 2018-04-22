@@ -15,6 +15,17 @@ export const saveConversation = async c => {
   } catch (error) {}
 };
 
+export const findConversation = async c_id => {
+  // console.log(c);
+  try {
+    const res = await axios.post('http://localhost:3031/conversation/find', {
+      c_id,
+    });
+    return res;
+    alert('conversation found', res);
+  } catch (error) {}
+};
+
 export const allConversations = async () => {
   try {
     const res = await axios.post('http://localhost:3031/conversation/all', {

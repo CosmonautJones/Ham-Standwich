@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Route, BrowserRouter as Router } from 'react-router-dom';
 
 import New from './New';
+import Edit from './Edit';
 import Login from './Login';
 import SidebarMenu from './SidebarMenu';
 import Conversations from './Conversations';
@@ -58,9 +59,14 @@ class Dashboard extends Component {
               path="/dashboard/conversations"
               component={Conversations}
             />
+            <Route
+              exact
+              path="/dashboard/conversations/edit"
+              component={Edit}
+            />
             {/* 
   <Route exact path="/dashboard/conversations/list" component={List} />
-  <Route exact path="/dashboard/conversations/edit" component={Edit} /> */}
+  */}
           </Sidebar.Pusher>
         </Sidebar.Pushable>
       </div>
