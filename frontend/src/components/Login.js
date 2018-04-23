@@ -30,9 +30,9 @@ class Login extends Component {
         <Menu
           secondary
           style={{
-            'margin-top': '10px',
-            'margin-left': '3em',
-            'margin-right': '3em',
+            marginTop: '10px',
+            marginLeft: '3em',
+            marginRight: '3em',
           }}
         >
           {/* <Menu.Item>
