@@ -295,9 +295,9 @@ class Edit extends Component {
                 // onClick={(e, d) => this.handleAddQuestion(e, d)}
               />
             </Form.Group>
-            {this.state.questions.map(q => {
+            {this.state.questions.map((q, i) => {
               return (
-                <Form.Group>
+                <Form.Group key={i}>
                   <Popup
                     trigger={
                       <Label
